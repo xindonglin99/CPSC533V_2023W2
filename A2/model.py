@@ -8,10 +8,18 @@ class MyModel(nn.Module):
         # TODO YOUR CODE HERE FOR INITIALIZING THE MODEL
         # Guidelines for network size: start with 2 hidden layers and maximum 32 neurons per layer
         # feel free to explore different sizes
+        self.layers = nn.Sequential(
+            nn.Linear(state_size, 256, True),
+            nn.ReLU(),
+            nn.Linear(256, 256, True),
+            nn.ReLU(),
+            nn.Linear(256, action_size, True),
+            )
+        
 
     def forward(self, x):
-        # TODO YOUR CODE HERE FOR THE FORWARD PASS
-        raise NotImplementedError()
+        x = self.layers(torch.flatten(x, 1))
+        return F.log_softmax(x, dim=1)
 
     def select_action(self, state):
         self.eval()

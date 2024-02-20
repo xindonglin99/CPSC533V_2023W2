@@ -1,5 +1,6 @@
 import torch
 import pickle
+import numpy as np
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, data_path):
@@ -15,5 +16,16 @@ class Dataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
         item = self.data[index]
-        # TODO YOUR CODE HERE
-        raise NotImplementedError()
+        return {"state": item[0], "action": item[1]}
+    
+    def getDimensions(self):
+        states = []
+        actions = []
+        for d in self.data:
+            states.append(d[0])
+            actions.append(d[1])
+        
+        states = np.array(states)
+        actions = np.array(actions)
+        return len(states), states.shape, actions.shape, np.max(states, axis=0, keepdims=True), np.min(states, axis=0, keepdims=True), np.max(actions,axis=0,keepdims=True), np.min(actions,axis=0,keepdims=True
+                                                                                                                                                                                    )

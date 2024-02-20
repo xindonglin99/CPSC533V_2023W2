@@ -17,21 +17,21 @@ dataloader = torch.utils.data.DataLoader(dataset, batch_size=BATCH_SIZE, num_wor
 env = gym.make(ENV_NAME)
 
 # TODO INITIALIZE YOUR MODEL HERE
-model = None
+model = MyModel(state_size=4, action_size=2).to(device)
 
 def train_behavioral_cloning():
     
     # TODO CHOOSE A OPTIMIZER AND A LOSS FUNCTION FOR TRAINING YOUR NETWORK
-    optimizer = None
-    loss_function = None
+    optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    loss_function = torch.nn.NLLLoss()
 
     gradient_steps = 0
 
     for epoch in range(1, TOTAL_EPOCHS + 1):
         for iteration, data in enumerate(dataloader):
             data = {k: v.to(device) for k, v in data.items()}
-
-            output = model(data['state'])
+            
+            output = model(data['state'].to(torch.float32))
 
             loss = loss_function(output, data["action"])
 
