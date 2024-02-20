@@ -23,7 +23,7 @@ def train_behavioral_cloning():
     
     # TODO CHOOSE A OPTIMIZER AND A LOSS FUNCTION FOR TRAINING YOUR NETWORK
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-    loss_function = torch.nn.NLLLoss()
+    loss_function = torch.nn.CrossEntropyLoss()
 
     gradient_steps = 0
 

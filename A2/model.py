@@ -18,9 +18,8 @@ class MyModel(nn.Module):
         
 
     def forward(self, x):
-        x = self.layers(torch.flatten(x, 1))
-        return F.log_softmax(x, dim=1)
-
+        return self.layers(torch.flatten(x, 1))
+        
     def select_action(self, state):
         self.eval()
         x = self.forward(state)
