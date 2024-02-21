@@ -20,9 +20,9 @@ class ReplayBuffer():
         batch = Transition(*zip(*transitions)) # from batch of Transitions to Transition of batches
         state = torch.tensor(batch.state, device=device, dtype=torch.float32)
         next_state = torch.tensor(batch.next_state, device=device, dtype=torch.float32)
-        action = torch.tensor(batch.action, device=device, dtype=torch.float32)[:, None]
+        action = torch.tensor(batch.action, device=device, dtype=torch.long)[:, None]
         reward = torch.tensor(batch.reward, device=device, dtype=torch.float32)
-        done = torch.tensor(batch.done, device=device, dtype=torch.float32)
+        done = torch.tensor(batch.done, device=device, dtype=torch.bool)
         return state, action, next_state, reward, done
 
     def __len__(self):
