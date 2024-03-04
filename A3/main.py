@@ -49,8 +49,10 @@ def main(args):
         # Policy loss
         if args.loss_mode == 'vpg':
             # TODO (Task 2): implement vanilla policy gradient loss
+            pass
         elif args.loss_mode == 'ppo':
             # TODO (Task 4): implement clipped PPO loss
+            pass
         else:
             raise Exception('Invalid loss_mode option', args.loss_mode)
 
