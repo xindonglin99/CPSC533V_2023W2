@@ -49,10 +49,13 @@ def main(args):
         # Policy loss
         if args.loss_mode == 'vpg':
             # TODO (Task 2): implement vanilla policy gradient loss
-            pass
+            loss_pi = - (logp * psi).mean()
         elif args.loss_mode == 'ppo':
             # TODO (Task 4): implement clipped PPO loss
-            pass
+            pi_ratio = torch.exp(logp - logp_old)
+            surr1 = pi_ratio * psi
+            surr2 = torch.clamp(pi_ratio, 1-args.clip_ratio, 1+args.clip_ratio) * psi
+            loss_pi = - torch.min(surr1, surr2).mean()
         else:
             raise Exception('Invalid loss_mode option', args.loss_mode)
 
@@ -68,6 +71,7 @@ def main(args):
         obs, ret = batch['obs'], batch['ret']
         v = ac.v(obs)
         # TODO: (Task 2): compute value function loss
+        loss_v = nn.functional.mse_loss(v.squeeze(), ret)
         return loss_v
 
     # Set up optimizers for policy and value function
